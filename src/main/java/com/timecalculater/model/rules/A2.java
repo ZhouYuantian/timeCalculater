@@ -5,7 +5,7 @@ import com.timecalculater.model.WkHrStat;
 
 import java.time.LocalTime;
 
-public class A2 extends A implements Rule{
+public class A2 extends A {
     static LocalTime t1;
     static LocalTime t2;
     static LocalTime t3;
