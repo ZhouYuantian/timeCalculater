@@ -9,7 +9,8 @@ public class AttendanceRecord {
     public String name; //姓名
     public String rule; //规则
     public LocalDate date;  //日期
-    public LocalTime t1,t2,t3,t4;   //打卡时间
+    public TimeInterval slot1;   //第一次上下班时间段
+    public TimeInterval slot2;   //第二次上下班时间段
     public Application application; //假勤申请
 
 }
