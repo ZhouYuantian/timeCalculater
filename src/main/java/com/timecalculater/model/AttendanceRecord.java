@@ -1,9 +1,7 @@
 package com.timecalculater.model;
 
-import com.timecalculater.model.rules.A;
-
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.List;
 
 public class AttendanceRecord {
     public String name; //姓名
@@ -11,6 +9,7 @@ public class AttendanceRecord {
     public LocalDate date;  //日期
     public TimeInterval slot1;   //第一次上下班时间段
     public TimeInterval slot2;   //第二次上下班时间段
-    public Application application; //假勤申请
+    public List<TimeInterval> otApplications;     //加班申请
+    public OffSummary offSummary; //假勤申请
 
 }

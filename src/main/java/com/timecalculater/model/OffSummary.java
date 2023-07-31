@@ -1,9 +1,6 @@
 package com.timecalculater.model;
 
-import java.util.List;
-
-public class Application {
-    public List<TimeInterval> overtimes;     //加班
+public class OffSummary {
     public float annual;    //年假（天）
     public float sick;    //病假（小时）
     public float shift;    //调休假（天）
@@ -12,11 +9,6 @@ public class Application {
     public float a_maternity;  //陪产假（天）
     public float funeral;      //丧假（天）
     public float business;      //事假（小时)
-
-    public List<TimeInterval> getOvertimes()
-    {
-        return overtimes;
-    }
 
     public float getSickHour()  //病假工时
     {

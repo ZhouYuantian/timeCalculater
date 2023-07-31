@@ -13,9 +13,8 @@ public class F extends StandardRule{
 
     @Override
     public float getNormalHour(AttendanceRecord record) {
-        return record.slot1.toHour() + record.slot1.toHour();
+        return record.slot1.toHour() + record.slot2.toHour();
     }
-
     @Override
     public float getOTHour(AttendanceRecord record) {
         return 0;
@@ -26,9 +25,4 @@ public class F extends StandardRule{
         return 0;
     }
 
-    @Override
-    public void setWorkHour(float normalHour, float otHour, WkHrStat wkHrStat, LocalDate date)
-    {
-        wkHrStat.weekdaysHours+=normalHour;
-    }
 }

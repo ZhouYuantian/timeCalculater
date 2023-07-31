@@ -37,7 +37,7 @@ public abstract class StandardRule implements Rule{
     public float getOTHour(AttendanceRecord record)     //计算加班工时
     {
         float otHour=0;
-        List<TimeInterval> otList=record.application.getOvertimes();
+        List<TimeInterval> otList=record.otApplications;
         for(TimeInterval ot:otList)
         {
             otHour+=(ot.interception(record.slot1));
@@ -49,13 +49,13 @@ public abstract class StandardRule implements Rule{
 
     public float getSickHour(AttendanceRecord record)   //病假工时
     {
-        return record.application.getSickHour();
+        return record.offSummary.getSickHour();
     }
 
 
     public float getPaidHour(AttendanceRecord record)   //计算带薪假工时
     {
-        return (record.application.getPaidLeaveDays())*8;   //天数*8=工时
+        return (record.offSummary.getPaidLeaveDays())*8;   //天数*8=工时
     }
 
 
@@ -78,11 +78,11 @@ public abstract class StandardRule implements Rule{
             unusual++;
         }
 
-        if (record.application.getPaidLeaveDays()>0)
+        if (record.offSummary.getPaidLeaveDays()>0)
         {//有带薪假但是小于等于半天，只计半天考勤异常
             unusual-=2;
         }
-        if(record.application.getPaidLeaveDays()>0.5)
+        if(record.offSummary.getPaidLeaveDays()>0.5)
         {//带薪假多于半天，不计考勤异常
             unusual=0;
         }

@@ -5,7 +5,7 @@ import com.timecalculater.model.TimeInterval;
 
 import java.time.LocalTime;
 
-public class N extends StandardRule
+public abstract class N extends StandardRule
 {
     protected N(LocalTime t1, LocalTime t2)
     {
