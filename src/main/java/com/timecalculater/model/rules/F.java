@@ -13,7 +13,7 @@ public class F extends StandardRule{
 
     @Override
     public float getNormalHour(AttendanceRecord record) {
-        return record.slot1.toHour();
+        return record.slot1.toHour() + record.slot1.toHour();
     }
 
     @Override

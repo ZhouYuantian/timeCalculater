@@ -1,6 +1,5 @@
 package com.timecalculater.model.rules.As;
 
-import com.timecalculater.model.TimeInterval;
 import com.timecalculater.model.rules.A;
 
 import java.time.LocalTime;

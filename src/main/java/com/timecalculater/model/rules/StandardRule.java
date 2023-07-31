@@ -108,23 +108,12 @@ public abstract class StandardRule implements Rule{
         }
     }
 
-    ////////处理工作日工时，工作日加班，休息日加班，节假日加班
+    ////////处理工作日工时，工作日加班 或 休息日加班，节假日加班
     public void setWorkHour(float normalHour, float otHour, WkHrStat wkHrStat, LocalDate date)
     {
-        if(DateUtil.holidaySet.contains(date))
-        {//节假日
-            wkHrStat.holidayHours+=normalHour;
-            wkHrStat.holidayOvertimeHours+=otHour;
-        }
-        else if(date.getDayOfWeek().get(DAY_OF_WEEK)<6)
-        {//工作日
-            wkHrStat.weekdaysHours+=normalHour;
-            wkHrStat.weekdaysOvertimeHours+=otHour;
-        }
-        else
-        {//休息日
-            wkHrStat.weekendOvertimeHours+=(normalHour+otHour);
-        }
+        //工作日处理方式
+        wkHrStat.weekdaysHours += normalHour;
+        wkHrStat.weekdaysOvertimeHours += otHour;
     }
 
     public void setPLHour(float paidHour,WkHrStat wkHrStat)
@@ -168,12 +157,12 @@ public abstract class StandardRule implements Rule{
 
         float sickHour=getSickHour(record);
         float paidHour=getPaidHour(record);
-        int absence=getUnusual(record);
+        int unusual=getUnusual(record);
 
         setSubsidyDays(normalHour,otHour,wkHrStat);
         setWorkHour(normalHour,otHour,wkHrStat,record.date);
         setPLHour(paidHour,wkHrStat);
         setSickHour(sickHour,wkHrStat);
-        setAbsence(absence,wkHrStat);
+        setAbsence(unusual,wkHrStat);
     }
 }

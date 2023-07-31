@@ -11,6 +11,7 @@ public class Application {
     public float maternity;    //产假（天）
     public float a_maternity;  //陪产假（天）
     public float funeral;      //丧假（天）
+    public float business;      //事假（小时)
 
     public List<TimeInterval> getOvertimes()
     {
