@@ -19,11 +19,14 @@ public class StringUtil {
 
         for(String otStr:otStrLst)
         {
-            String startStr=otStr.split(" ")[1];
-            String endStr=otStr.split(" ")[4];
-            LocalTime start=LocalTime.parse(startStr,format);
-            LocalTime end=LocalTime.parse(endStr,format);
-            otList.add(new TimeInterval(start,end));
+            if(otStr.contains("加班"))
+            {
+                String startStr=otStr.split(" ")[1];
+                String endStr=otStr.split(" ")[4];
+                LocalTime start=LocalTime.parse(startStr,format);
+                LocalTime end=LocalTime.parse(endStr,format);
+                otList.add(new TimeInterval(start,end));
+            }
         }
 
         return otList;
@@ -40,6 +43,7 @@ public class StringUtil {
     public static LocalTime getTime(String str)
     {
         if(str.equals("--")) return null;
+        str=str.replaceAll("次日","");
         DateTimeFormatter format=DateTimeFormatter.ofPattern("HH:mm");
         LocalTime time=LocalTime.parse(str,format);
         return time;

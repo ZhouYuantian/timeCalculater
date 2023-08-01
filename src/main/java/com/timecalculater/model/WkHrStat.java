@@ -1,7 +1,7 @@
 package com.timecalculater.model;
 
 public class WkHrStat {
-    public String employeeName;
+    public String name;
     public int days3to5H; // 3-5H天数
     public int daysGT5H; // >5H天数
     public int daysGT11H; // >11H天数

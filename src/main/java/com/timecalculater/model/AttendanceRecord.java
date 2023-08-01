@@ -12,4 +12,16 @@ public class AttendanceRecord {
     public List<TimeInterval> otApplications;     //加班申请
     public OffSummary offSummary; //假勤申请
 
+    @Override
+    public String toString() {
+        return "AttendanceRecord{" +
+                "name='" + name + '\'' +
+                ", rule='" + rule + '\'' +
+                ", date=" + date +
+                ", slot1=" + slot1 +
+                ", slot2=" + slot2 +
+                ", otApplications=" + otApplications +
+                ", offSummary=" + offSummary +
+                '}';
+    }
 }

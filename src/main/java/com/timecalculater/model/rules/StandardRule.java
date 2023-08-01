@@ -3,7 +3,6 @@ package com.timecalculater.model.rules;
 import com.timecalculater.model.AttendanceRecord;
 import com.timecalculater.model.TimeInterval;
 import com.timecalculater.model.WkHrStat;
-import com.timecalculater.utils.DateUtil;
 
 import java.time.LocalDate;
 import java.util.List;
