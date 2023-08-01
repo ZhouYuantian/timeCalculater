@@ -7,7 +7,6 @@ import com.timecalculater.model.WkHrStat;
 import java.time.LocalDate;
 import java.util.List;
 
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
 
 public abstract class StandardRule implements Rule{
     TimeInterval reg_slot1,reg_slot2;
@@ -21,11 +20,11 @@ public abstract class StandardRule implements Rule{
     public float getNormalHour(AttendanceRecord record)     //计算正常工时
     {
         float normalHour=0;
-        if(record.slot1!=null && reg_slot1!=null)
+        if(reg_slot1!=null)
         {
             normalHour+=reg_slot1.interception(record.slot1);
         }
-        if(record.slot2!=null && reg_slot2!=null)
+        if(reg_slot2!=null)
         {
             normalHour+=reg_slot2.interception(record.slot2);
         }
