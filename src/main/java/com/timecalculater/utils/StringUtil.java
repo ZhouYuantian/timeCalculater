@@ -49,9 +49,4 @@ public class StringUtil {
         return time;
     }
 
-    public static void main(String args[])
-    {
-        System.out.println(getDate("2023/04/15"));
-        System.out.println(getTime("13:54"));
-    }
 }

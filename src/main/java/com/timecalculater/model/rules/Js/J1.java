@@ -1,9 +1,10 @@
 package com.timecalculater.model.rules.Js;
 
 import com.timecalculater.model.rules.J;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
-
+@Component
 public class J1 extends J {
     static LocalTime t1=LocalTime.of(8,30);
     static LocalTime t2=LocalTime.of(12,15);

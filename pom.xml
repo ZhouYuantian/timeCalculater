@@ -67,6 +67,14 @@
             <artifactId>poi-ooxml</artifactId>
             <version>4.1.0</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>6.0.11</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -90,7 +98,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.timecalculater.timecalculater/com.timecalculater.HelloApplication
+                                com.timecalculater.timecalculater/com.timecalculater.Main
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

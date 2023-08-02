@@ -1,10 +1,10 @@
 package com.timecalculater.model.rules;
 
 import com.timecalculater.model.AttendanceRecord;
-import com.timecalculater.model.WkHrStat;
+import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 
+@Component
 public class F extends StandardRule{
     public F()
     {

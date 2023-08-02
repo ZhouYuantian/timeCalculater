@@ -74,13 +74,7 @@ public class ExcelUtil {
         {   //获取String,然后转float
             cell.setCellType(CellType.STRING);
             String value=cell.getStringCellValue();
-            try {
-                return value.equals("--")?0:Float.parseFloat(value);
-            }catch (NumberFormatException e) {
-                AlertUtil.warning((currRow+1)+"行的信息异常，请检查并重试");
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
+            return value.equals("--")?0:Float.parseFloat(value);
         }
         return 0;
     }
@@ -99,33 +93,36 @@ public class ExcelUtil {
         initialize(filePath);
 
         List<AttendanceRecord> recordList=new ArrayList<>();
-        for(currRow=firstRow;currRow<=lastRow;currRow++)
-        {
-            AttendanceRecord record=new AttendanceRecord();
-            row=sheet.getRow(currRow);
+        for(currRow=firstRow;currRow<=lastRow;currRow++) {
+            AttendanceRecord record = new AttendanceRecord();
+            row = sheet.getRow(currRow);
 
-            record.name=getStringFromCell(RecordTbl.name);
-            record.date=StringUtil.getDate(getStringFromCell(RecordTbl.date));
-            record.rule=getStringFromCell(RecordTbl.rule);
-            LocalTime t1=StringUtil.getTime(getStringFromCell(RecordTbl.t1));
-            LocalTime t2=StringUtil.getTime(getStringFromCell(RecordTbl.t2));
-            LocalTime t3=StringUtil.getTime(getStringFromCell(RecordTbl.t3));
-            LocalTime t4=StringUtil.getTime(getStringFromCell(RecordTbl.t4));
-            record.slot1=t1!=null?new TimeInterval(t1,t2):null;
-            record.slot2=t3!=null?new TimeInterval(t3,t4):null;
-            record.otApplications=StringUtil.getOtApplications(getStringFromCell(RecordTbl.application));
+            try {
+                record.name = getStringFromCell(RecordTbl.name);
+                record.date = StringUtil.getDate(getStringFromCell(RecordTbl.date));
+                record.rule = getStringFromCell(RecordTbl.rule);
+                LocalTime t1 = StringUtil.getTime(getStringFromCell(RecordTbl.t1));
+                LocalTime t2 = StringUtil.getTime(getStringFromCell(RecordTbl.t2));
+                LocalTime t3 = StringUtil.getTime(getStringFromCell(RecordTbl.t3));
+                LocalTime t4 = StringUtil.getTime(getStringFromCell(RecordTbl.t4));
+                record.slot1 = t1 != null ? new TimeInterval(t1, t2) : null;
+                record.slot2 = t3 != null ? new TimeInterval(t3, t4) : null;
+                record.otApplications = StringUtil.getOtApplications(getStringFromCell(RecordTbl.application));
 
-            OffSummary offSummary=new OffSummary();
-            offSummary.annual=getFloatFromCell(RecordTbl.annual);
-            offSummary.business=getFloatFromCell(RecordTbl.business);
-            offSummary.sick=getFloatFromCell(RecordTbl.sick);
-            offSummary.shift=getFloatFromCell(RecordTbl.shift);
-            offSummary.marriage=getFloatFromCell(RecordTbl.marriage);
-            offSummary.maternity=getFloatFromCell(RecordTbl.maternity);
-            offSummary.a_maternity=getFloatFromCell(RecordTbl.a_maternity);
-            offSummary.funeral=getFloatFromCell(RecordTbl.funeral);
-
-            record.offSummary=offSummary;
+                OffSummary offSummary = new OffSummary();
+                offSummary.annual = getFloatFromCell(RecordTbl.annual);
+                offSummary.business = getFloatFromCell(RecordTbl.business);
+                offSummary.sick = getFloatFromCell(RecordTbl.sick);
+                offSummary.shift = getFloatFromCell(RecordTbl.shift);
+                offSummary.marriage = getFloatFromCell(RecordTbl.marriage);
+                offSummary.maternity = getFloatFromCell(RecordTbl.maternity);
+                offSummary.a_maternity = getFloatFromCell(RecordTbl.a_maternity);
+                offSummary.funeral = getFloatFromCell(RecordTbl.funeral);
+                record.offSummary=offSummary;
+            } catch (Exception e) {
+                AlertUtil.warning((currRow+1)+"行的信息异常，请检查并重试");
+                throw e;
+            }
 
             recordList.add(record);
         }
@@ -168,7 +165,7 @@ public class ExcelUtil {
 //            System.out.println(record);
 //        }
 
-        WkHrStat result=new WkHrStat();
+        WkHrStat result=new WkHrStat("张三");
         result.name="张三";
         result.days3to5H=1;
         result.daysGT5H=2;

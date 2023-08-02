@@ -16,4 +16,9 @@ public class WkHrStat {
     //////////////////
     public float after20Subsidy; ///20点后夜班补贴
     public float c2Subsidy;    //C2夜班补贴
+
+    public WkHrStat(String name)
+    {
+        this.name=name;
+    }
 }

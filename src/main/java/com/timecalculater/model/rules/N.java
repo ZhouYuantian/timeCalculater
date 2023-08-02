@@ -28,7 +28,7 @@ public abstract class N extends StandardRule
     @Override
     public int getUnusual(AttendanceRecord record)
     {
-        if(record.slot1==null && record.offSummary.getPaidLeaveDays()<=0)
+        if(record.slot1==null && record.offSummary.getTotalOffDays()<=0)
         {
             return 2;
         }

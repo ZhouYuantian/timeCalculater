@@ -76,12 +76,12 @@ public abstract class StandardRule implements Rule{
             unusual++;
         }
 
-        if (record.offSummary.getPaidLeaveDays()>0)
-        {//有带薪假但是小于等于半天，只计半天考勤异常
+        if (record.offSummary.getTotalOffDays()>0)
+        {//有请假但是小于等于半天，只计半天考勤异常
             unusual-=2;
         }
-        if(record.offSummary.getPaidLeaveDays()>0.5)
-        {//带薪假多于半天，不计考勤异常
+        if(record.offSummary.getTotalOffDays()>0.5)
+        {//有请薪假多于半天，不计考勤异常
             unusual=0;
         }
 

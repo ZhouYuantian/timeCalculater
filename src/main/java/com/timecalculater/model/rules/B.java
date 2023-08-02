@@ -26,23 +26,25 @@ public abstract class B extends StandardRule{
     @Override
     public int getUnusual(AttendanceRecord record)
     {
-        if (record.offSummary.getPaidLeaveDays()>0)
-        {//有带薪假,不计异常
-            return 0;
-        }
-        else
+
+        int unusual=0;
+        if(record.slot1==null || !record.slot1.startBefore(reg_slot1,5))
         {
-            int unusual=0;
-            if(record.slot1==null || !record.slot1.startBefore(reg_slot1,5))
-            {
-                unusual++;
-            }
-            if(record.slot1==null || !record.slot1.endAfter(reg_slot1,5))
-            {
-                unusual++;
-            }
-            return unusual;
+            unusual++;
         }
+        if(record.slot1==null || !record.slot1.endAfter(reg_slot1,5))
+        {
+            unusual++;
+        }
+        if (record.offSummary.getTotalOffDays()>0)
+        {//有请假但是小于等于半天，只计半天考勤异常
+            unusual--;
+        }
+        if(record.offSummary.getTotalOffDays()>0.5)
+        {//有请薪假多于半天，不计考勤异常
+            unusual=0;
+        }
+        return unusual<0?0:unusual;
     }
 
     @Override

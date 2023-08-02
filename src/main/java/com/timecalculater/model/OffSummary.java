@@ -20,17 +20,8 @@ public class OffSummary {
         return annual+shift+marriage+maternity+a_maternity+funeral;
     }
 
-    @Override
-    public String toString() {
-        return "OffSummary{" +
-                "annual=" + annual +
-                ", sick=" + sick +
-                ", shift=" + shift +
-                ", marriage=" + marriage +
-                ", maternity=" + maternity +
-                ", a_maternity=" + a_maternity +
-                ", funeral=" + funeral +
-                ", business=" + business +
-                '}';
+    public float getTotalOffDays() //当日总请假时间
+    {
+        return getSickHour()/8 + getPaidLeaveDays();
     }
 }
