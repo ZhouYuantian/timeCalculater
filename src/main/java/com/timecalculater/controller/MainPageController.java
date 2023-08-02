@@ -3,6 +3,7 @@ package com.timecalculater.controller;
 import com.timecalculater.service.StatService;
 import com.timecalculater.utils.AlertUtil;
 import com.timecalculater.utils.FileUtil;
+import com.timecalculater.utils.SpringUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -71,7 +72,7 @@ public class MainPageController {
             AlertUtil.warning("请选择输出目录");
             return;
         }
-        StatService statService=new StatService();
+        StatService statService= SpringUtil.getBean(StatService.class);
         statService.generateResults(recordTablePath,outputDirectory);
         AlertUtil.info("导出成功");
     }

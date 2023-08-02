@@ -1,4 +1,4 @@
-module com.timecalculater.timecalculater {
+open module com.timecalculater.timecalculater {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.apache.commons.io;
@@ -11,8 +11,8 @@ module com.timecalculater.timecalculater {
     requires spring.core;
     requires spring.expression;
 
-    opens com.timecalculater to javafx.fxml;
+
     exports com.timecalculater;
     exports com.timecalculater.controller;
-    opens com.timecalculater.controller to javafx.fxml;
+
 }

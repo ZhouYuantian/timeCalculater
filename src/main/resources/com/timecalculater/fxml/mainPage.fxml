@@ -11,7 +11,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.timecalculater.controller.MainPageController">
    <children>
-      <TextField alignment="TOP_CENTER" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="275.0" text="考勤记录表">
+      <TextField alignment="TOP_CENTER" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="275.0" text="考勤记录表">
          <effect>
             <ColorAdjust brightness="-0.02" contrast="-0.08" saturation="-0.02" />
          </effect>
@@ -19,7 +19,7 @@
             <Insets left="162.0" right="162.0" />
          </VBox.margin>
          <font>
-            <Font size="16.0" />
+            <Font size="15.0" />
          </font>
       </TextField>
       <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="62.0" prefWidth="391.0">

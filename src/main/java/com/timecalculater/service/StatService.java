@@ -1,14 +1,12 @@
 package com.timecalculater.service;
 
-import com.timecalculater.Main;
 import com.timecalculater.model.AttendanceRecord;
 import com.timecalculater.model.WkHrStat;
 import com.timecalculater.model.rules.Rule;
 import com.timecalculater.utils.AlertUtil;
 import com.timecalculater.utils.ExcelUtil;
+import com.timecalculater.utils.SpringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -22,7 +20,6 @@ public class StatService {
     RecordService recordService;
     public List<WkHrStat> doStat(List<AttendanceRecord> recordList)
     {
-        ApplicationContext context=new AnnotationConfigApplicationContext(Main.class);
         HashMap<String,WkHrStat> wkHrStatMap= new HashMap<>();
 
         for(AttendanceRecord record:recordList)
@@ -34,7 +31,7 @@ public class StatService {
 
             Rule rule;
             try{
-                rule=(Rule) context.getBean(record.rule);
+                rule=(Rule) SpringUtil.getBean(record.rule);
             }catch (Exception e) {
                 AlertUtil.warning("班次错误:"+record.rule);
                 throw e;
