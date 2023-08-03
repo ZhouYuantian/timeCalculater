@@ -104,10 +104,13 @@ public class ExcelUtil {
                 LocalTime t2 = StringUtil.getTime(getStringFromCell(RecordTbl.t2));
                 LocalTime t3 = StringUtil.getTime(getStringFromCell(RecordTbl.t3));
                 LocalTime t4 = StringUtil.getTime(getStringFromCell(RecordTbl.t4));
+                LocalTime t5 = StringUtil.getTime(getStringFromCell(RecordTbl.t5));
+                LocalTime t6 = StringUtil.getTime(getStringFromCell(RecordTbl.t6));
                 LocalTime tE = StringUtil.getTime(getStringFromCell(RecordTbl.tE));
                 LocalTime tL = StringUtil.getTime(getStringFromCell(RecordTbl.tL));
                 record.slot1 = t1 != null ? new TimeInterval(t1, t2) : null;
                 record.slot2 = t3 != null ? new TimeInterval(t3, t4) : null;
+                record.slot3 = t5 != null ? new TimeInterval(t5, t6) : null;
                 record.slotX = tE != null ? new TimeInterval(tE, tL) : null;
                 record.otApplications = StringUtil.getOtApplications(getStringFromCell(RecordTbl.application));
 
@@ -137,7 +140,7 @@ public class ExcelUtil {
         initialize(filePath);
 
         List<TripRecord> recordList=new ArrayList<>();
-        for(currRow=firstRow=2;currRow<=lastRow;currRow++)
+        for(currRow=firstRow=1;currRow<=lastRow;currRow++)
         {
             TripRecord tripRecord=new TripRecord();
             row=sheet.getRow(currRow);

@@ -2,8 +2,12 @@ package com.timecalculater.utils;
 
 
 import com.timecalculater.model.TimeInterval;
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,15 +38,25 @@ public class StringUtil {
 
     public static LocalDate getDate(String str)
     {
-        String dateStr=str.substring(0,10);
-        DateTimeFormatter format= DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        LocalDate date=LocalDate.parse(dateStr,format);
+        String dateStr= StringUtils.left(str,10);
+        LocalDate date;
+        if(StringUtils.isNumeric(str))
+        {
+            ZoneId zid=ZoneId.systemDefault();
+            date=HSSFDateUtil.getJavaDate(Double.valueOf(str)).toInstant().atZone(zid).toLocalDate();
+        }
+        else
+        {
+            DateTimeFormatter format= DateTimeFormatter.ofPattern("yyyy/M/d");
+            date=LocalDate.parse(dateStr,format);
+        }
+
         return date;
     }
 
     public static LocalTime getTime(String str)
     {
-        if(str.equals("--")) return null;
+        if(str.equals("--")||str.equals("未打卡")) return null;
         str=str.replaceAll("次日","");
         DateTimeFormatter format=DateTimeFormatter.ofPattern("HH:mm");
         LocalTime time=LocalTime.parse(str,format);

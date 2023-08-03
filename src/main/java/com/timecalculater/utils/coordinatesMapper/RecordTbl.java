@@ -9,6 +9,8 @@ public class RecordTbl
     public static int t2=10;
     public static int t3=12;
     public static int t4=14;
+    public static int t5=16;
+    public static int t6=18;
     public static int tE=20;
     public static int tL=21;
     public static int application=31;

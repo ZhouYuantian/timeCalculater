@@ -10,6 +10,7 @@ open module com.timecalculater.timecalculater {
     requires spring.beans;
     requires spring.core;
     requires spring.expression;
+    requires commons.lang;
 
 
     exports com.timecalculater;
