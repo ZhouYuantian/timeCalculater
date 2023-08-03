@@ -38,8 +38,7 @@ public abstract class StandardRule implements Rule{
         List<TimeInterval> otList=record.otApplications;
         for(TimeInterval ot:otList)
         {
-            otHour+=(ot.interception(record.slot1));
-            otHour+=(ot.interception(record.slot2));
+            otHour+=(ot.interception(record.slotX));
         }
         return otHour;
     }

@@ -26,7 +26,6 @@ public abstract class B extends StandardRule{
     @Override
     public int getUnusual(AttendanceRecord record)
     {
-
         int unusual=0;
         if(record.slot1==null || !record.slot1.startBefore(reg_slot1,5))
         {

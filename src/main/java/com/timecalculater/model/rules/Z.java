@@ -16,7 +16,7 @@ public abstract class Z extends StandardRule{
     public float getOTHour(AttendanceRecord record)
     {//17:30到18:00加班无需申请，直接计入加班工时
         TimeInterval F630to7=new TimeInterval(LocalTime.of(17,30),LocalTime.of(18,0));
-        return F630to7.interception(record.slot2)+super.getOTHour(record);
+        return F630to7.interception(record.slotX)+super.getOTHour(record);
     }
 
     @Override

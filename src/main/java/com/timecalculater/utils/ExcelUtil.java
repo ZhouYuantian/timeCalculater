@@ -1,12 +1,11 @@
 package com.timecalculater.utils;
 
 
-import com.timecalculater.model.AttendanceRecord;
-import com.timecalculater.model.OffSummary;
-import com.timecalculater.model.TimeInterval;
-import com.timecalculater.model.WkHrStat;
+import com.timecalculater.model.*;
+import com.timecalculater.model.rules.E;
 import com.timecalculater.utils.coordinatesMapper.RecordTbl;
 import com.timecalculater.utils.coordinatesMapper.StatTbl;
+import com.timecalculater.utils.coordinatesMapper.TripTbl;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -34,7 +33,7 @@ public class ExcelUtil {
             FileInputStream fs = FileUtils.openInputStream(file);
             workbook = new XSSFWorkbook(fs);
             sheet = workbook.getSheetAt(0);
-            firstRow = sheet.getFirstRowNum() + 4; //考勤表的数据从 行4 开始
+            firstRow = sheet.getFirstRowNum();
             lastRow = sheet.getLastRowNum();
             currRow=0;
         }catch (Exception e)
@@ -93,7 +92,7 @@ public class ExcelUtil {
         initialize(filePath);
 
         List<AttendanceRecord> recordList=new ArrayList<>();
-        for(currRow=firstRow;currRow<=lastRow;currRow++) {
+        for(currRow=firstRow=4;currRow<=lastRow;currRow++) {
             AttendanceRecord record = new AttendanceRecord();
             row = sheet.getRow(currRow);
 
@@ -105,8 +104,11 @@ public class ExcelUtil {
                 LocalTime t2 = StringUtil.getTime(getStringFromCell(RecordTbl.t2));
                 LocalTime t3 = StringUtil.getTime(getStringFromCell(RecordTbl.t3));
                 LocalTime t4 = StringUtil.getTime(getStringFromCell(RecordTbl.t4));
+                LocalTime tE = StringUtil.getTime(getStringFromCell(RecordTbl.tE));
+                LocalTime tL = StringUtil.getTime(getStringFromCell(RecordTbl.tL));
                 record.slot1 = t1 != null ? new TimeInterval(t1, t2) : null;
                 record.slot2 = t3 != null ? new TimeInterval(t3, t4) : null;
+                record.slotX = tE != null ? new TimeInterval(tE, tL) : null;
                 record.otApplications = StringUtil.getOtApplications(getStringFromCell(RecordTbl.application));
 
                 OffSummary offSummary = new OffSummary();
@@ -120,7 +122,7 @@ public class ExcelUtil {
                 offSummary.funeral = getFloatFromCell(RecordTbl.funeral);
                 record.offSummary=offSummary;
             } catch (Exception e) {
-                AlertUtil.warning((currRow+1)+"行的信息异常，请检查并重试");
+                AlertUtil.warning("考勤记录表"+(currRow+1)+"行的信息异常，请检查并重试");
                 throw e;
             }
 
@@ -130,6 +132,29 @@ public class ExcelUtil {
         return recordList;
     }
 
+    public static List<TripRecord> getAllTripList(String filePath)
+    {
+        initialize(filePath);
+
+        List<TripRecord> recordList=new ArrayList<>();
+        for(currRow=firstRow=2;currRow<=lastRow;currRow++)
+        {
+            TripRecord tripRecord=new TripRecord();
+            row=sheet.getRow(currRow);
+
+            try {
+                tripRecord.name=getStringFromCell(TripTbl.name);
+                tripRecord.date=StringUtil.getDate(getStringFromCell(TripTbl.date));
+                tripRecord.workHour=getFloatFromCell(TripTbl.workHour);
+            }catch (Exception e) {
+                AlertUtil.warning("出差记录表"+(currRow+1)+"行的信息异常，请检查并重试");
+                throw e;
+            }
+
+            recordList.add(tripRecord);
+        }
+        return recordList;
+    }
     public static void writeStatResult(String outputFile, List<WkHrStat> statResults)
     {
         initialize(templateFile);

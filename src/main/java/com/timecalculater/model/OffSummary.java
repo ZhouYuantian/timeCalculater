@@ -20,7 +20,7 @@ public class OffSummary {
         return annual+shift+marriage+maternity+a_maternity+funeral;
     }
 
-    public float getTotalOffDays() //当日总请假时间
+    public float getTotalOffDays() //当日总请假时间(天)
     {
         return getSickHour()/8 + getPaidLeaveDays();
     }

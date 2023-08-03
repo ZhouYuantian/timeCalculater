@@ -36,6 +36,31 @@
             <Insets left="162.0" right="75.0" />
          </VBox.margin>
       </HBox>
+      <TextField alignment="TOP_CENTER" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="275.0" text="出差记录表">
+         <effect>
+            <ColorAdjust brightness="-0.02" contrast="-0.08" saturation="-0.02" />
+         </effect>
+         <font>
+            <Font size="15.0" />
+         </font>
+         <VBox.margin>
+            <Insets left="162.0" right="162.0" />
+         </VBox.margin>
+      </TextField>
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="62.0" prefWidth="391.0">
+         <children>
+            <TextField fx:id="tfTripFilePath" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="201.0" promptText="请选择文件">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </TextField>
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSelectTripTable" prefHeight="35.0" prefWidth="75.0" text="选择" />
+            <Hyperlink onAction="#onViewTripTemplate" prefHeight="28.0" prefWidth="103.0" text="查看样例各式" underline="true" />
+         </children>
+         <VBox.margin>
+            <Insets left="162.0" right="75.0" />
+         </VBox.margin>
+      </HBox>
       <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="300.0">
          <children>
             <TextField fx:id="tfOutputDirectoryPath" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="175.0" promptText="请选择输出文件夹" />

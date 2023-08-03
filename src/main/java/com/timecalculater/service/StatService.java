@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 public class StatService {
     @Autowired
     RecordService recordService;
+    @Autowired
+    TripService tripService;
     public List<WkHrStat> doStat(List<AttendanceRecord> recordList)
     {
         HashMap<String,WkHrStat> wkHrStatMap= new HashMap<>();
@@ -46,8 +48,9 @@ public class StatService {
         String filePath=directoryPath+"\\"+"工时表汇总.xlsx";
         ExcelUtil.writeStatResult(filePath,resultList);
     }
-    public void generateResults(String recordTablePath,String outputDirectory)
+    public void generateResults(String recordTablePath,String tripTablePath,String outputDirectory)
     {
+        tripService.setDataSource(tripTablePath);
         List<AttendanceRecord> recordList= recordService.getRecordList(recordTablePath);
         List<WkHrStat> resultList=doStat(recordList);
         outputResults(resultList,outputDirectory);

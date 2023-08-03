@@ -17,6 +17,8 @@ public class MainPageController {
     @FXML
     private TextField tfRecordsFilePath;
     @FXML
+    private TextField tfTripFilePath;
+    @FXML
     private TextField tfOutputDirectoryPath;
 
     @FXML
@@ -44,6 +46,31 @@ public class MainPageController {
         FileUtil.openRecordTemplate();
     }
     @FXML
+    public void onSelectTripTable(ActionEvent actionEvent)
+    {
+        FileChooser chooser=new FileChooser();
+        chooser.setTitle("打开文件");
+        chooser.setInitialDirectory(new File("c:\\"));
+        chooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter(".xlsx文件","*.xlsx"));
+        Stage stage=(Stage)tfTripFilePath.getScene().getWindow();
+        File file=chooser.showOpenDialog(stage);
+        if(file==null)
+        {
+            AlertUtil.warning("未选择任何文件");
+        }
+        else
+        {
+            tfTripFilePath.setText(file.getAbsolutePath());
+        }
+    }
+    @FXML
+    public void onViewTripTemplate(ActionEvent actionEvent) {
+        FileUtil.openTripTemplate();
+    }
+
+
+    @FXML
     public void onSelectOutputDirectory(ActionEvent actionEvent)
     {
         DirectoryChooser chooser=new DirectoryChooser();
@@ -61,10 +88,16 @@ public class MainPageController {
     public void onExport(ActionEvent actionEvent)
     {
         String recordTablePath=tfRecordsFilePath.getText();
+        String tripTablePath=tfTripFilePath.getText();
         String outputDirectory=tfOutputDirectoryPath.getText();
         if(recordTablePath==null||"".equals(recordTablePath))
         {
             AlertUtil.warning("请先选择考勤记录表文件");
+            return;
+        }
+        if(tripTablePath==null||"".equals(tripTablePath))
+        {
+            AlertUtil.warning("请选择出差记录表文件");
             return;
         }
         if(outputDirectory==null||"".equals(outputDirectory))
@@ -73,7 +106,8 @@ public class MainPageController {
             return;
         }
         StatService statService= SpringUtil.getBean(StatService.class);
-        statService.generateResults(recordTablePath,outputDirectory);
+        statService.generateResults(recordTablePath,tripTablePath,outputDirectory);
         AlertUtil.info("导出成功");
     }
+
 }

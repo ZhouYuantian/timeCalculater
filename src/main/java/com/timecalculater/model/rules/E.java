@@ -5,7 +5,7 @@ import com.timecalculater.model.WkHrStat;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-
+//休息日无排班
 @Component
 public class E extends StandardRule{
     public E(){super(null,null);}
