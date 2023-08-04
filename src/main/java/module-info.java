@@ -11,6 +11,7 @@ open module com.timecalculater.timecalculater {
     requires spring.core;
     requires spring.expression;
     requires commons.lang;
+    requires guava;
 
 
     exports com.timecalculater;

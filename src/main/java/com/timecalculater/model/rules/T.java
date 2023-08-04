@@ -20,7 +20,7 @@ public class T implements Rule{
         TripRecord tRecord=tripService.getRecordByNameDate(aRecord.name,aRecord.date);
         if(tRecord==null)
         {
-            AlertUtil.warning("无法找到出差记录:"+aRecord.name+" "+aRecord.date);
+            AlertUtil.error("无法找到出差记录:"+aRecord.name+" "+aRecord.date);
             throw new RuntimeException();
         }
 

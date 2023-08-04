@@ -21,7 +21,7 @@ public class AlertUtil {
         alert.headerTextProperty().set(text);
         alert.showAndWait();
     }
-    public static void erro(String text)
+    public static void error(String text)
     {
         alert.setAlertType(Alert.AlertType.WARNING);
         alert.titleProperty().set("错误");

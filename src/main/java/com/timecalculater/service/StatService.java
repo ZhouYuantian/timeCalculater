@@ -33,9 +33,9 @@ public class StatService {
 
             Rule rule;
             try{
-                rule=(Rule) SpringUtil.getBean(record.rule);
+                rule=(Rule) SpringUtil.getBean(record.rule.toLowerCase());
             }catch (Exception e) {
-                AlertUtil.warning("班次错误:"+record.rule);
+                AlertUtil.error("班次错误:"+record.rule);
                 throw e;
             }
             rule.processAttendance(wkHrStatMap.get(record.name),record);

@@ -30,27 +30,27 @@ public abstract class C extends B{
     @Override
     public int getUnusual(AttendanceRecord record) {
         int unusual=0;
-        if(record.slot1==null || !record.slot1.startBefore(reg_slot1,5))
+        if(!record.slot1.startBefore(reg_slot1,5))
         {
             unusual++;
         }
-        if(record.slot1==null || !record.slot1.endAfter(reg_slot1,5))
+        if(!record.slot1.endAfter(reg_slot1,5))
         {
             unusual++;
         }
-        if(record.slot2==null || !record.slot2.startBefore(reg_slot2,5))
+        if(!record.slot2.startBefore(reg_slot2,5))
         {
             unusual++;
         }
-        if(record.slot2==null || !record.slot2.endAfter(reg_slot2,5))
+        if(!record.slot2.endAfter(reg_slot2,5))
         {
             unusual++;
         }
-        if(record.slot3==null || !record.slot3.startBefore(reg_slot3,5))
+        if(!record.slot3.startBefore(reg_slot3,5))
         {
             unusual++;
         }
-        if(record.slot3==null || !record.slot3.endAfter(reg_slot3,5))
+        if(!record.slot3.endAfter(reg_slot3,5))
         {
             unusual++;
         }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 
+//晚班江门
 @Component
 public class N1 extends N {
     static LocalTime t1=LocalTime.of(13,30);

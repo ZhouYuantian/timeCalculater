@@ -2,7 +2,6 @@ package com.timecalculater.utils;
 
 
 import com.timecalculater.model.*;
-import com.timecalculater.model.rules.E;
 import com.timecalculater.utils.coordinatesMapper.RecordTbl;
 import com.timecalculater.utils.coordinatesMapper.StatTbl;
 import com.timecalculater.utils.coordinatesMapper.TripTbl;
@@ -38,7 +37,7 @@ public class ExcelUtil {
             currRow=0;
         }catch (Exception e)
         {
-            AlertUtil.warning("初始化文件异常,请重试");
+            AlertUtil.error("初始化文件异常,请重试");
             e.printStackTrace();
             throw new RuntimeException();
         }
@@ -51,7 +50,7 @@ public class ExcelUtil {
             workbook.write(outputStream);
         }catch (Exception e)
         {
-            AlertUtil.warning("保存文件异常,请重试");
+            AlertUtil.error("保存文件异常,请重试");
             e.printStackTrace();
             throw new RuntimeException();
         }
@@ -79,12 +78,12 @@ public class ExcelUtil {
     }
     static void writeToCellAt(int colNum, String value)
     {
-        cell=row.getCell(colNum);
+        cell=row.createCell(colNum);
         cell.setCellValue(value);
     }
     static void writeToCellAt(int colNum, float value)
     {
-        cell=row.getCell(colNum);
+        cell=row.createCell(colNum);
         cell.setCellValue(String.format("%.2f",value));
     }
     public static List<AttendanceRecord> getAllRecordList(String filePath)
@@ -108,10 +107,10 @@ public class ExcelUtil {
                 LocalTime t6 = StringUtil.getTime(getStringFromCell(RecordTbl.t6));
                 LocalTime tE = StringUtil.getTime(getStringFromCell(RecordTbl.tE));
                 LocalTime tL = StringUtil.getTime(getStringFromCell(RecordTbl.tL));
-                record.slot1 = t1 != null ? new TimeInterval(t1, t2) : null;
-                record.slot2 = t3 != null ? new TimeInterval(t3, t4) : null;
-                record.slot3 = t5 != null ? new TimeInterval(t5, t6) : null;
-                record.slotX = tE != null ? new TimeInterval(tE, tL) : null;
+                record.slot1 = new TimeInterval(t1, t2);
+                record.slot2 = new TimeInterval(t3, t4);
+                record.slot3 = new TimeInterval(t5, t6);
+                record.slotX = new TimeInterval(tE, tL);
                 record.otApplications = StringUtil.getOtApplications(getStringFromCell(RecordTbl.application));
 
                 OffSummary offSummary = new OffSummary();
@@ -125,7 +124,7 @@ public class ExcelUtil {
                 offSummary.funeral = getFloatFromCell(RecordTbl.funeral);
                 record.offSummary=offSummary;
             } catch (Exception e) {
-                AlertUtil.warning("考勤记录表"+(currRow+1)+"行的信息异常，请检查并重试");
+                AlertUtil.error("考勤记录表"+(currRow+1)+"行的信息异常，请检查并重试");
                 throw e;
             }
 
@@ -150,7 +149,7 @@ public class ExcelUtil {
                 tripRecord.date=StringUtil.getDate(getStringFromCell(TripTbl.date));
                 tripRecord.workHour=getFloatFromCell(TripTbl.workHour);
             }catch (Exception e) {
-                AlertUtil.warning("出差记录表"+(currRow+1)+"行的信息异常，请检查并重试");
+                AlertUtil.error("出差记录表"+(currRow+1)+"行的信息异常，请检查并重试");
                 throw e;
             }
 

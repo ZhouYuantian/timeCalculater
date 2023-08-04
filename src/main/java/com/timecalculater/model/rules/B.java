@@ -27,11 +27,11 @@ public abstract class B extends StandardRule{
     public int getUnusual(AttendanceRecord record)
     {
         int unusual=0;
-        if(record.slot1==null || !record.slot1.startBefore(reg_slot1,5))
+        if(!record.slot1.startBefore(reg_slot1,5))
         {
             unusual++;
         }
-        if(record.slot1==null || !record.slot1.endAfter(reg_slot1,5))
+        if(!record.slot1.endAfter(reg_slot1,5))
         {
             unusual++;
         }
