@@ -2,6 +2,7 @@ package com.timecalculater.model.rules;
 
 import com.timecalculater.model.AttendanceRecord;
 import com.timecalculater.model.TimeInterval;
+import com.timecalculater.model.WkHrStat;
 
 import java.time.LocalTime;
 
@@ -28,13 +29,36 @@ public abstract class N extends StandardRule
     @Override
     public int getUnusual(AttendanceRecord record)
     {
-        if(record.slot1==null && record.offSummary.getTotalOffDays()<=0)
+        int unusual=0;
+        if(record.slot1.t1==null)
         {
-            return 2;
+            unusual++;
+            for(TimeInterval bls:record.blApplications)
+            {
+                if(bls.contains(reg_slot1.t1)) unusual--;
+            }
         }
-        else
+        if(record.slot1.t2==null)
         {
-            return 0;
+            unusual++;
+            for(TimeInterval bls:record.blApplications)
+            {
+                if(bls.contains(reg_slot1.t2)) unusual--;
+            }
         }
+        return unusual;
+    }
+
+    @Override
+    public void setAbsence(int unusual, float totalOffHour, WkHrStat wkHrStat) {
+        if(totalOffHour>=4)
+        {
+            unusual-=1;
+        }
+        if(totalOffHour>=8)
+        {
+            unusual=0;
+        }
+        wkHrStat.absences+=unusual;
     }
 }

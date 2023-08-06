@@ -38,4 +38,9 @@ public class H extends StandardRule{
         wkHrStat.holidayOvertimeHours=otHour;
     }
 
+    @Override
+    public void setSubsidyDays(float totalWkHour, WkHrStat wkHrStat) {
+        float realWkHour=totalWkHour-8;
+        super.setSubsidyDays(realWkHour,wkHrStat);
+    }
 }

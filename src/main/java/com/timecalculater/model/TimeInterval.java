@@ -27,13 +27,15 @@ public class TimeInterval {
         if(this.notComplete()||interval.notComplete()) return 0;
 
         int t1s=t1.toSecondOfDay();
-        int t2s=t1.isBefore(t2)?t2.toSecondOfDay():t2.toSecondOfDay()+86400; //跨日补时
+        int t2s=t2.toSecondOfDay();
+        if(t2s<t1s) t2s+=86400;  //跨日补时
 
         int s1s=interval.t1.toSecondOfDay();
-        int s2s=interval.t1.isBefore(interval.t2)?interval.t2.toSecondOfDay():interval.t2.toSecondOfDay()+86400;
+        int s2s=interval.t2.toSecondOfDay();
+        if(s2s<s1s) s2s+=86400;
 
-        int diff=Math.min(t2s,s2s)-Math.max(t1s,s1s);
-        return diff>0?(float) diff/3600:0;
+        float diff=Math.min(t2s,s2s)-Math.max(t1s,s1s);
+        return diff>0?(diff/3600):0;
     }
     public float complement(TimeInterval interval)
     {
@@ -47,14 +49,21 @@ public class TimeInterval {
     }
     public boolean startBefore(TimeInterval interval,int offset)
     {
+        if(interval==null) return true;
         if(t1==null) return false;
         return t1.isBefore(interval.t1.plusMinutes(offset+1));
     }
 
     public boolean endAfter(TimeInterval interval,int offset)
     {
+        if(interval==null) return true;
         if(t2==null) return false;
         return t2.isAfter(interval.t2.minusMinutes(offset+1));
+    }
+
+    public boolean contains(LocalTime t)
+    {
+        return t1.isBefore(t)&&t2.isAfter(t);
     }
 
 }

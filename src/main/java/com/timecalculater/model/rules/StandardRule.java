@@ -38,7 +38,11 @@ public abstract class StandardRule implements Rule{
         List<TimeInterval> otList=record.otApplications;
         for(TimeInterval ot:otList)
         {
-            otHour+=(ot.interception(record.slotX));
+            otHour+=(ot.interception(record.slotE));
+            otHour+=(ot.interception(record.slot1));
+            otHour+=(ot.interception(record.slot2));
+            otHour+=(ot.interception(record.slot3));
+            otHour+=(ot.interception(record.slotL));
         }
         return otHour;
     }
@@ -58,48 +62,55 @@ public abstract class StandardRule implements Rule{
 
     public int getUnusual(AttendanceRecord record) {    //计算考勤异常次数
         int unusual=0;
+        if(record.offSummary.bLeave>0) unusual++;   //有事假，记一次异常
         if(!record.slot1.startBefore(reg_slot1,5))
         {
             unusual++;
+            for(TimeInterval bls:record.blApplications)
+            {
+                if(bls.contains(reg_slot1.t1)) unusual--;
+            }
         }
         if(!record.slot1.endAfter(reg_slot1,5))
         {
             unusual++;
+            for(TimeInterval bls:record.blApplications)
+            {
+                if(bls.contains(reg_slot1.t2)) unusual--;
+            }
         }
         if(!record.slot2.startBefore(reg_slot2,5))
         {
             unusual++;
+            for(TimeInterval bls:record.blApplications)
+            {
+                if(bls.contains(reg_slot2.t1)) unusual--;
+            }
         }
         if(!record.slot2.endAfter(reg_slot2,5))
         {
             unusual++;
+            for(TimeInterval bls:record.blApplications)
+            {
+                if(bls.contains(reg_slot2.t2)) unusual--;
+            }
         }
 
-        if (record.offSummary.getTotalOffDays()>0)
-        {//有请假但是小于等于半天，只计半天考勤异常
-            unusual-=2;
-        }
-        if(record.offSummary.getTotalOffDays()>0.5)
-        {//有请薪假多于半天，不计考勤异常
-            unusual=0;
-        }
-
-        return unusual<0?0:unusual;
+        return unusual;
     }
 
     /////////处理3-5H天数，5-11H天数，11H天数
-    public void setSubsidyDays(float normalHour,float otHour, WkHrStat wkHrStat)
+    public void setSubsidyDays(float totalWkHour, WkHrStat wkHrStat)
     {
-        float totalHour=normalHour+otHour;
-        if(totalHour>=3 && totalHour<5)
+        if(totalWkHour>=3 && totalWkHour<5)
         {
             wkHrStat.days3to5H++;
         }
-        else if(totalHour>=5 && totalHour<11)
+        else if(totalWkHour>=5)
         {
             wkHrStat.daysGT5H++;
         }
-        else if(totalHour>=11)
+        if(totalWkHour>=11)
         {
             wkHrStat.daysGT11H++;
         }
@@ -108,6 +119,17 @@ public abstract class StandardRule implements Rule{
     ////////处理工作日工时，工作日加班 或 休息日加班，节假日加班
     public void setWorkHour(float normalHour, float otHour, WkHrStat wkHrStat, LocalDate date)
     {
+        //如正常工时小于8，从加班的工时里补正常工时，并扣除部分加班工时
+        if(otHour+normalHour>8)
+        {
+            otHour=otHour+normalHour-8;
+            normalHour=8;
+        }
+        else
+        {
+            normalHour=otHour+normalHour;
+            otHour=0;
+        }
         //工作日处理方式
         wkHrStat.weekdaysHours += normalHour;
         wkHrStat.weekdaysOvertimeHours += otHour;
@@ -123,9 +145,17 @@ public abstract class StandardRule implements Rule{
         wkHrStat.sickLeaveHours+=sickHour;
     }
 
-    public void setAbsence(int absence,WkHrStat wkHrStat)
+    public void setAbsence(int unusual,float totalOffHour,WkHrStat wkHrStat)
     {
-        wkHrStat.absences+=absence;
+        if(totalOffHour>=4)
+        {
+            unusual-=2;
+        }
+        if(totalOffHour>=8)
+        {
+            unusual=0;
+        }
+        wkHrStat.absences+=unusual;
     }
 
     /*
@@ -137,29 +167,17 @@ public abstract class StandardRule implements Rule{
     {
         float normalHour=getNormalHour(record);
         float otHour=getOTHour(record);
-        //如正常工时小于8，从加班的工时里补正常工时，并扣除部分加班工时
-        if(normalHour<8)
-        {
-            if(otHour+normalHour>8)
-            {
-                otHour-=8-normalHour;
-                normalHour=8;
-            }
-            else
-            {
-                normalHour+=otHour;
-                otHour=0;
-            }
-        }
-
         float sickHour=getSickHour(record);
         float paidHour=getPaidHour(record);
         int unusual=getUnusual(record);
+        float totalWkHour=normalHour+otHour;
+        float totalOffHour=sickHour+paidHour;
 
-        setSubsidyDays(normalHour,otHour,wkHrStat);
+
+        setSubsidyDays(totalWkHour,wkHrStat);
         setWorkHour(normalHour,otHour,wkHrStat,record.date);
         setPLHour(paidHour,wkHrStat);
         setSickHour(sickHour,wkHrStat);
-        setAbsence(unusual,wkHrStat);
+        setAbsence(unusual,totalOffHour,wkHrStat);
     }
 }

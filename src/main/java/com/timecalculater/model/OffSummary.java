@@ -1,5 +1,6 @@
 package com.timecalculater.model;
 
+
 public class OffSummary {
     public float annual;    //年假（天）
     public float sick;    //病假（小时）
@@ -8,7 +9,8 @@ public class OffSummary {
     public float maternity;    //产假（天）
     public float a_maternity;  //陪产假（天）
     public float funeral;      //丧假（天）
-    public float business;      //事假（小时)
+    public float bLeave;       //事假（小时)
+
 
     public float getSickHour()  //病假工时
     {
@@ -20,8 +22,5 @@ public class OffSummary {
         return annual+shift+marriage+maternity+a_maternity+funeral;
     }
 
-    public float getTotalOffDays() //当日总请假时间(天)
-    {
-        return getSickHour()/8 + getPaidLeaveDays();
-    }
+
 }

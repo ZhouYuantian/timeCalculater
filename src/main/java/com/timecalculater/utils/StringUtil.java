@@ -13,29 +13,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringUtil {
-
-    public static List<TimeInterval> getOtApplications(String rawString)
+    public static List<TimeInterval> getApplications(String rawString,String keyWord)
     {
         if(rawString.equals("--")) return new ArrayList<>();
         DateTimeFormatter format=DateTimeFormatter.ofPattern("HH:mm");
-        String[] otStrLst=rawString.split("、");
-        List<TimeInterval> otList=new ArrayList<>();
+        String[] timeStrLst=rawString.split("、");
+        List<TimeInterval> timeLst=new ArrayList<>();
 
-        for(String otStr:otStrLst)
+        for(String timeStr:timeStrLst)
         {
-            if(otStr.contains("加班"))
+            if(timeStr.contains(keyWord))
             {
-                String startStr=otStr.split(" ")[1];
-                String endStr=otStr.split(" ")[4];
+                String startStr=timeStr.split(" ")[1];
+                String endStr=timeStr.split(" ")[4];
                 LocalTime start=LocalTime.parse(startStr,format);
                 LocalTime end=LocalTime.parse(endStr,format);
-                otList.add(new TimeInterval(start,end));
+                timeLst.add(new TimeInterval(start,end));
             }
         }
 
-        return otList;
+        return timeLst;
     }
 
+    public static List<TimeInterval> getOtApplications(String rawString)
+    {
+        return getApplications(rawString,"加班");
+    }
+    public static List<TimeInterval> getBlApplications(String rawString)
+    {
+        return getApplications(rawString,"事假");
+    }
     public static LocalDate getDate(String str)
     {
         String dateStr= StringUtils.left(str,10);

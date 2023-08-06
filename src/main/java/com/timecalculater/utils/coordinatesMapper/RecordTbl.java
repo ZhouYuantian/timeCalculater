@@ -15,7 +15,7 @@ public class RecordTbl
     public static int tL=21;
     public static int application=31;
     public static int annual=33;
-    public static int business =34;
+    public static int bLeave =34;
     public static int sick=35;
     public static int shift=36;
     public static int marriage=37;

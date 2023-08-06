@@ -2,6 +2,7 @@ package com.timecalculater.utils;
 
 
 import com.timecalculater.model.*;
+import com.timecalculater.model.rules.T;
 import com.timecalculater.utils.coordinatesMapper.RecordTbl;
 import com.timecalculater.utils.coordinatesMapper.StatTbl;
 import com.timecalculater.utils.coordinatesMapper.TripTbl;
@@ -110,12 +111,12 @@ public class ExcelUtil {
                 record.slot1 = new TimeInterval(t1, t2);
                 record.slot2 = new TimeInterval(t3, t4);
                 record.slot3 = new TimeInterval(t5, t6);
-                record.slotX = new TimeInterval(tE, tL);
-                record.otApplications = StringUtil.getOtApplications(getStringFromCell(RecordTbl.application));
+                record.slotE = new TimeInterval(tE, TimeUtil.earliestOf(t1,t2,t3,t4,t5,t6));
+                record.slotL = new TimeInterval(TimeUtil.latestOf(t1,t2,t3,t4,t5,t6), tL);
 
                 OffSummary offSummary = new OffSummary();
                 offSummary.annual = getFloatFromCell(RecordTbl.annual);
-                offSummary.business = getFloatFromCell(RecordTbl.business);
+                offSummary.bLeave = getFloatFromCell(RecordTbl.bLeave);
                 offSummary.sick = getFloatFromCell(RecordTbl.sick);
                 offSummary.shift = getFloatFromCell(RecordTbl.shift);
                 offSummary.marriage = getFloatFromCell(RecordTbl.marriage);
@@ -123,6 +124,16 @@ public class ExcelUtil {
                 offSummary.a_maternity = getFloatFromCell(RecordTbl.a_maternity);
                 offSummary.funeral = getFloatFromCell(RecordTbl.funeral);
                 record.offSummary=offSummary;
+
+                String applicationStr=getStringFromCell(RecordTbl.application);
+                record.otApplications = StringUtil.getOtApplications(applicationStr);
+                if(offSummary.bLeave<8) {
+                    record.blApplications=StringUtil.getBlApplications(applicationStr);
+                }
+                else {
+                    record.blApplications=List.of(new TimeInterval(LocalTime.MIN,LocalTime.MAX));
+                }
+
             } catch (Exception e) {
                 AlertUtil.error("考勤记录表"+(currRow+1)+"行的信息异常，请检查并重试");
                 throw e;

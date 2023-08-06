@@ -2,6 +2,7 @@ package com.timecalculater.model.rules;
 
 import com.timecalculater.model.AttendanceRecord;
 import com.timecalculater.model.TimeInterval;
+import com.timecalculater.model.WkHrStat;
 
 import java.time.LocalTime;
 
@@ -29,47 +30,36 @@ public abstract class C extends B{
 
     @Override
     public int getUnusual(AttendanceRecord record) {
-        int unusual=0;
-        if(!record.slot1.startBefore(reg_slot1,5))
-        {
-            unusual++;
-        }
-        if(!record.slot1.endAfter(reg_slot1,5))
-        {
-            unusual++;
-        }
-        if(!record.slot2.startBefore(reg_slot2,5))
-        {
-            unusual++;
-        }
-        if(!record.slot2.endAfter(reg_slot2,5))
-        {
-            unusual++;
-        }
+        int unusual=super.getUnusual(record);
         if(!record.slot3.startBefore(reg_slot3,5))
         {
             unusual++;
+            for(TimeInterval bls:record.blApplications)
+            {
+                if(bls.contains(reg_slot3.t1)) unusual--;
+            }
         }
         if(!record.slot3.endAfter(reg_slot3,5))
         {
             unusual++;
+            for(TimeInterval bls:record.blApplications)
+            {
+                if(bls.contains(reg_slot3.t2)) unusual--;
+            }
         }
+        return unusual;
+    }
 
-        if (record.offSummary.getTotalOffDays()>0)
+    @Override
+    public void setAbsence(int unusual, float totalOffHour, WkHrStat wkHrStat) {
+        if(totalOffHour>=4)
         {
-            unusual-=2;
+            unusual-=3;
         }
-        if (record.offSummary.getTotalOffDays()>0.3)
-        {
-            unusual-=2;
-        }
-        if(record.offSummary.getTotalOffDays()>0.6)
+        if(totalOffHour>=8)
         {
             unusual=0;
         }
-
-        return unusual<0?0:unusual;
+        wkHrStat.absences+=unusual;
     }
-
-
 }

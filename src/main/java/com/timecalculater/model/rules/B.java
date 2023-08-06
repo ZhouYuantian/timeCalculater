@@ -23,33 +23,24 @@ public abstract class B extends StandardRule{
         wkHrStat.after20Subsidy=after20WkHr;
     }
 
-    @Override
-    public int getUnusual(AttendanceRecord record)
-    {
-        int unusual=0;
-        if(!record.slot1.startBefore(reg_slot1,5))
-        {
-            unusual++;
-        }
-        if(!record.slot1.endAfter(reg_slot1,5))
-        {
-            unusual++;
-        }
-        if (record.offSummary.getTotalOffDays()>0)
-        {//有请假但是小于等于半天，只计半天考勤异常
-            unusual--;
-        }
-        if(record.offSummary.getTotalOffDays()>0.5)
-        {//有请薪假多于半天，不计考勤异常
-            unusual=0;
-        }
-        return unusual<0?0:unusual;
-    }
 
     @Override
     public void processAttendance(WkHrStat wkHrStat, AttendanceRecord record) {
         float after20WkHr=getAfter20WkHr(record);
         setAfter20Subsidy(after20WkHr,wkHrStat);
         super.processAttendance(wkHrStat, record);
+    }
+
+    @Override
+    public void setAbsence(int unusual, float totalOffHour, WkHrStat wkHrStat) {
+        if(totalOffHour>=4)
+        {
+            unusual-=1;
+        }
+        if(totalOffHour>=8)
+        {
+            unusual=0;
+        }
+        wkHrStat.absences+=unusual;
     }
 }
