@@ -2,7 +2,6 @@ package com.timecalculater.model.rules;
 
 import com.timecalculater.model.AttendanceRecord;
 import com.timecalculater.model.WkHrStat;
-import com.timecalculater.utils.DateUtil;
 
 import static java.time.temporal.ChronoField.DAY_OF_WEEK;
 

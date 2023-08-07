@@ -8,7 +8,7 @@ import java.time.LocalTime;
 @Component
 public class C2 extends C {
     static LocalTime t1=LocalTime.of(20,0);
-    static LocalTime t2=LocalTime.of(23,59);
+    static LocalTime t2=LocalTime.MAX;
     static LocalTime t3=LocalTime.of(0,20);
     static LocalTime t4=LocalTime.of(4,0);
     static LocalTime t5=LocalTime.of(5,0);

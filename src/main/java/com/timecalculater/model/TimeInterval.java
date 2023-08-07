@@ -51,6 +51,7 @@ public class TimeInterval {
     {
         if(interval==null) return true;
         if(t1==null) return false;
+        if(t1.toSecondOfDay()-interval.t1.toSecondOfDay()>23*3600) return true;
         return t1.isBefore(interval.t1.plusMinutes(offset+1));
     }
 
@@ -58,6 +59,7 @@ public class TimeInterval {
     {
         if(interval==null) return true;
         if(t2==null) return false;
+        if(interval.t2.toSecondOfDay()-t2.toSecondOfDay()>23*3600) return true;
         return t2.isAfter(interval.t2.minusMinutes(offset+1));
     }
 
@@ -66,4 +68,11 @@ public class TimeInterval {
         return t1.isBefore(t)&&t2.isAfter(t);
     }
 
+    public static void main(String[] args) {
+        TimeInterval itv1=new TimeInterval(LocalTime.MIN,LocalTime.of(23,59));
+        TimeInterval itv2=new TimeInterval(LocalTime.of(23,45),LocalTime.of(0,1));
+
+        System.out.println(itv2.startBefore(itv1,5));
+        System.out.println(itv2.endAfter(itv1,5));
+    }
 }
