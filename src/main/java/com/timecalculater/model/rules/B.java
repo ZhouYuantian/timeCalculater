@@ -20,16 +20,9 @@ public abstract class B extends StandardRule{
 
     public void setAfter20Subsidy(float after20WkHr, WkHrStat wkHrStat)
     {
-        wkHrStat.after20Subsidy=after20WkHr;
+        wkHrStat.after20Subsidy+=after20WkHr;
     }
 
-
-    @Override
-    public void processAttendance(WkHrStat wkHrStat, AttendanceRecord record) {
-        float after20WkHr=getAfter20WkHr(record);
-        setAfter20Subsidy(after20WkHr,wkHrStat);
-        super.processAttendance(wkHrStat, record);
-    }
 
     @Override
     public void setAbsence(int unusual, float totalOffHour, WkHrStat wkHrStat) {
@@ -42,5 +35,12 @@ public abstract class B extends StandardRule{
             unusual=0;
         }
         wkHrStat.absences+=unusual;
+    }
+
+    @Override
+    public void processAttendance(WkHrStat wkHrStat, AttendanceRecord record) {
+        float after20WkHr=getAfter20WkHr(record);
+        setAfter20Subsidy(after20WkHr,wkHrStat);
+        super.processAttendance(wkHrStat, record);
     }
 }

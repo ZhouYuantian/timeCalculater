@@ -7,7 +7,7 @@ import java.time.LocalTime;
 
 @Component
 public class C1 extends B {
-    static LocalTime t1=LocalTime.MIN;
+    static LocalTime t1=LocalTime.of(0,0);
     static LocalTime t2=LocalTime.of(8,0);
 
     public C1() {
