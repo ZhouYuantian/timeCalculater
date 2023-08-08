@@ -1,5 +1,9 @@
 package com.timecalculater.model;
 
+/**
+  *@ClassName WkHrStat
+  *@Description 该类的实例用于封装一位员工一月的考勤记录汇总，对应输出表里的其中一行
+*/
 public class WkHrStat {
     public String name;
     public int days3to5H; // 3-5H天数

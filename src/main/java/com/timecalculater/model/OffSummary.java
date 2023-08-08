@@ -1,6 +1,9 @@
 package com.timecalculater.model;
 
-
+/**
+  *@ClassName OffSummary
+  *@Description 该类的实例用于封装一位员工一天的假勤统计
+*/
 public class OffSummary {
     public float annual;    //年假（天）
     public float sick;    //病假（小时）

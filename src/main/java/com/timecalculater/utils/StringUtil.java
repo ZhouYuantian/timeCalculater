@@ -57,7 +57,6 @@ public class StringUtil {
             DateTimeFormatter format= DateTimeFormatter.ofPattern("yyyy/M/d");
             date=LocalDate.parse(dateStr,format);
         }
-
         return date;
     }
 
@@ -65,7 +64,15 @@ public class StringUtil {
     {
         if(str.equals("--")||str.equals("未打卡")) return null;
         str=str.replaceAll("次日","");
-        DateTimeFormatter format=DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter format;
+        if(str.length()>5)
+        {
+            format=DateTimeFormatter.ofPattern("H:mm:ss");
+        }
+        else
+        {
+            format=DateTimeFormatter.ofPattern("HH:mm");
+        }
         LocalTime time=LocalTime.parse(str,format);
         return time;
     }

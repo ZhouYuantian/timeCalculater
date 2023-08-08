@@ -5,6 +5,10 @@ import com.timecalculater.model.TimeInterval;
 
 import java.time.LocalTime;
 
+/**
+  *@ClassName Z
+  *@Description 中山打卡班次，迟到有一个特定的阈值来判定。超过18：00加班需申请，18:00之前加班无需申请
+*/
 public abstract class Z extends StandardRule{
 
     protected Z(LocalTime t1, LocalTime t2, LocalTime t3, LocalTime t4)
@@ -12,6 +16,11 @@ public abstract class Z extends StandardRule{
         super(new TimeInterval(t1,t2), new TimeInterval(t3,t4));
     }
 
+    /**
+     * @description 计算加班时间
+     * @param record 员工当日考勤记录
+     * @return 当日加班时间（H）
+     **/
     @Override
     public float getOTHour(AttendanceRecord record)
     {//17:30到18:00加班无需申请，直接计入加班工时
@@ -19,6 +28,11 @@ public abstract class Z extends StandardRule{
         return F630to7.interception(record.slot2)+super.getOTHour(record);
     }
 
+    /**
+     * @description 计算当日异常次数，考虑事假，不考虑其他假
+     * @param record 员工当日考勤记录
+     * @return 当日考勤异常次数
+     **/
     @Override
     public int getUnusual(AttendanceRecord record)
     {

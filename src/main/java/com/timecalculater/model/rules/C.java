@@ -6,8 +6,12 @@ import com.timecalculater.model.WkHrStat;
 
 import java.time.LocalTime;
 
+/**
+  *@ClassName C
+  *@Description C类规则，三轮打卡，需计算20点后夜班补贴
+*/
 public abstract class C extends B{
-    TimeInterval reg_slot3;
+    TimeInterval reg_slot3;     //规定的第三轮打卡时间段
     protected C(LocalTime t1,LocalTime t2,LocalTime t3,LocalTime t4,LocalTime t5,LocalTime t6)
     {
         super(t1,t2);
@@ -15,6 +19,11 @@ public abstract class C extends B{
         reg_slot3=new TimeInterval(t5,t6);
     }
 
+    /**
+     * @description  计算正常工时，因为有三轮打卡，所以计算方式有异于标准规则，需重写
+     * @param record 员工当日考勤记录
+     * @return  当日正常工时（H）
+     **/
     @Override
     public float getNormalHour(AttendanceRecord record) {
         float normalHour= super.getNormalHour(record);
@@ -22,12 +31,22 @@ public abstract class C extends B{
         return normalHour;
     }
 
+    /**
+     * @description 计算20点后夜班工时
+     * @param record 员工当日考勤记录
+     * @return 20点后工时（H）
+     **/
     @Override
     public float getAfter20WkHr(AttendanceRecord record) {
         TimeInterval F12to20=new TimeInterval(LocalTime.of(12,0),LocalTime.of(20,0));
         return record.slot1.complement(F12to20)+record.slot2.complement(F12to20)+record.slot3.complement(F12to20);
     }
 
+    /**
+     * @description 求员工当日异常次数
+     * @param record 员工当日考勤记录
+     * @return 异常次数
+     **/
     @Override
     public int getUnusual(AttendanceRecord record) {
         int unusual=super.getUnusual(record);
@@ -50,6 +69,13 @@ public abstract class C extends B{
         return unusual;
     }
 
+    /**
+     * @description 根据假时调整异常次数，并计入员工当月记录
+     * @param unusual 异常次数
+     * @param totalOffHour 总假时
+     * @param wkHrStat 员工当月记录
+     * @return
+     **/
     @Override
     public void setAbsence(int unusual, float totalOffHour, WkHrStat wkHrStat) {
         if(totalOffHour>=4)

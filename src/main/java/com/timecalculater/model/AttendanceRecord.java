@@ -3,6 +3,10 @@ package com.timecalculater.model;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+  *@ClassName AttendanceRecord
+  *@Description 该类的实例用于封装一位员工一天的考勤记录，对应输入表里的其中一行
+*/
 public class AttendanceRecord {
     public String name; //姓名
     public String rule; //规则

@@ -20,6 +20,12 @@ public class StatService {
     RecordService recordService;
     @Autowired
     TripService tripService;
+
+    /**
+     * @description 处理所有考勤记录，统计出每位员工当月的工时汇总。从每条考勤记录读出当日所属规则，并调用规则类来处理这条记录。
+     * @param recordList 包含当月所有员工每日的考勤记录
+     * @return 每位员工的当月工时汇总
+     **/
     public List<WkHrStat> doStat(List<AttendanceRecord> recordList)
     {
         HashMap<String,WkHrStat> wkHrStatMap= new HashMap<>();

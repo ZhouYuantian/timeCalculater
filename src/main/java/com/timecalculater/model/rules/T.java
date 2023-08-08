@@ -8,12 +8,21 @@ import com.timecalculater.utils.AlertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
+/**
+  *@ClassName T
+  *@Description 出差班次，直接从出差表里读数据，无需计算。因此不继承(改写)标准规则模板，直接实现Rule接口
+*/
 @Component
 public class T implements Rule{
     @Autowired
     TripService tripService;
 
+    /**
+     * @description 从出差信息表获取该员工当日的出差信息，并更新到该员工当月记录
+     * @param wkHrStat 当月记录
+     * @param aRecord 当日考勤记录
+     * @return
+     **/
     @Override
     public void processAttendance(WkHrStat wkHrStat, AttendanceRecord aRecord)
     {

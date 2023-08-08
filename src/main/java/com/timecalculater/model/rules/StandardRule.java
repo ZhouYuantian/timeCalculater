@@ -8,8 +8,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 
+
+/**
+  *@ClassName StandardRule
+  *@Description 标准班次的模板，实现了最常规的班次处理方式。(A大类可直接使用）
+*/
 public abstract class StandardRule implements Rule{
-    TimeInterval reg_slot1,reg_slot2;
+    TimeInterval reg_slot1,reg_slot2;   //规则定好的两段上班时间
     protected StandardRule(TimeInterval reg_slot1,TimeInterval reg_slot2)
     {
         this.reg_slot1=reg_slot1;
@@ -17,7 +22,12 @@ public abstract class StandardRule implements Rule{
     }
 
 
-    public float getNormalHour(AttendanceRecord record)     //计算正常工时
+    /**
+     * @description 计算当前员工的当日正常工时
+     * @param record 某位员工当日考勤记录
+     * @return 正常工时（H）
+     **/
+    public float getNormalHour(AttendanceRecord record)
     {
         float normalHour=0;
         if(reg_slot1!=null)
@@ -31,8 +41,12 @@ public abstract class StandardRule implements Rule{
         return normalHour;
     }
 
-
-    public float getOTHour(AttendanceRecord record)     //计算加班工时
+    /**
+     * @description 计算当前员工的当日加班工时
+     * @param record 某位员工的当日考勤记录
+     * @return 加班工时(H)
+     **/
+    public float getOTHour(AttendanceRecord record)
     {
         float otHour=0;
         List<TimeInterval> otList=record.otApplications;
@@ -47,19 +61,31 @@ public abstract class StandardRule implements Rule{
         return otHour;
     }
 
-
-    public float getSickHour(AttendanceRecord record)   //病假工时
+    /**
+     * @description 计算当前员工的当日病假工时
+     * @param record 某位员工的当日考勤记录
+     * @return 病假工时(H)
+     **/
+    public float getSickHour(AttendanceRecord record)
     {
         return record.offSummary.getSickHour();
     }
 
-
-    public float getPaidHour(AttendanceRecord record)   //计算带薪假工时
+    /**
+     * @description 计算当前员工当日的带薪假工时
+     * @param record 某位员工的当日考勤记录
+     * @return 带薪假工时（H）
+     **/
+    public float getPaidHour(AttendanceRecord record)
     {
         return (record.offSummary.getPaidLeaveDays())*8;   //天数*8=工时
     }
 
-
+    /**
+     * @description 计算当前员工当日考勤异常次数，考虑埋事假，不考虑其他假
+     * @param record 某位员工的当日考勤记录
+     * @return 当天异常次数
+     **/
     public int getUnusual(AttendanceRecord record) {    //计算考勤异常次数
         int unusual=0;
         if(record.offSummary.bLeave>0) unusual++;   //有事假，记一次异常
@@ -95,11 +121,15 @@ public abstract class StandardRule implements Rule{
                 if(bls.contains(reg_slot2.t2)) unusual--;
             }
         }
-
         return unusual;
     }
 
-    /////////处理3-5H天数，5-11H天数，11H天数
+    /**
+     * @description 添加 3-5小时天数，5小时天数，11小时天数 到员工当月记录
+     * @param totalWkHour 某位员工当日总工时
+     * @param wkHrStat 某位员工当月记录
+     * @return
+     **/
     public void setSubsidyDays(float totalWkHour, WkHrStat wkHrStat)
     {
         if(totalWkHour>=3 && totalWkHour<5)
@@ -116,7 +146,14 @@ public abstract class StandardRule implements Rule{
         }
     }
 
-    ////////处理工作日工时，工作日加班 或 休息日加班，节假日加班
+    /**
+     * @description 添加某位员工当日的工时到当月记录
+     * @param normalHour 当日正常工时(H)
+     * @param otHour    当日加班工时（H）
+     * @param wkHrStat  员工的当月记录
+     * @param date      当日日期
+     * @return
+     **/
     public void setWorkHour(float normalHour, float otHour, WkHrStat wkHrStat, LocalDate date)
     {
         //如正常工时小于8，从加班的工时里补正常工时，并扣除部分加班工时
@@ -135,16 +172,35 @@ public abstract class StandardRule implements Rule{
         wkHrStat.weekdaysOvertimeHours += otHour;
     }
 
+    /**
+     * @description 将员工当日带薪假工时添加到其当月记录
+     * @param paidHour 当日带薪假工时
+     * @param wkHrStat 某员工当月记录
+     * @return
+     **/
     public void setPLHour(float paidHour,WkHrStat wkHrStat)
     {
         wkHrStat.paidLeaveHours+=paidHour;
     }
 
+    /**
+     * @description 将员工当日病假工时添加到其当月记录
+     * @param sickHour 当日病假工时
+     * @param wkHrStat 某员工当月记录
+     * @return
+     **/
     public void setSickHour(float sickHour,WkHrStat wkHrStat)
     {
         wkHrStat.sickLeaveHours+=sickHour;
     }
 
+    /**
+     * @description 综合病假和带薪假考虑，调整员工当日考勤异常次数
+     * @param unusual 员工当日考勤异常次数
+     * @param totalOffHour 总请假工时 （不包含事假)
+     * @param wkHrStat 员工当月记录
+     * @return
+     **/
     public void setAbsence(int unusual,float totalOffHour,WkHrStat wkHrStat)
     {
         if(totalOffHour>=4)
@@ -158,11 +214,12 @@ public abstract class StandardRule implements Rule{
         wkHrStat.absences+=unusual;
     }
 
-    /*
-     * @Description: 处理考勤记录，提取并计算工时数据，计入员工的当月工时汇总
-     * @Param wkHrStat: 员工当月工时汇总
-     * @Param record: 员工一日的考勤数据
-     * */
+    /**
+     * @description 处理考勤记录，提取并计算工时数据，计入员工的当月工时记录
+     * @param wkHrStat 员工当月工时记录
+     * @param record 员工某一日的考勤数据
+     * @return
+     **/
     public void processAttendance(WkHrStat wkHrStat, AttendanceRecord record)
     {
         float normalHour=getNormalHour(record);
