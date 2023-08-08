@@ -47,9 +47,6 @@ public class T implements Rule{
         {
             wkHrStat.daysGT11H++;
         }
-        else
-        {
-            wkHrStat.daysGT5H++;
-        }
+        wkHrStat.daysGT5H++;
     }
 }

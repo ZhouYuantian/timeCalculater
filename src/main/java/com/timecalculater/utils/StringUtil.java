@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,17 +65,17 @@ public class StringUtil {
     {
         if(str.equals("--")||str.equals("未打卡")) return null;
         str=str.replaceAll("次日","");
-        DateTimeFormatter format;
         if(str.length()>5)
         {
-            format=DateTimeFormatter.ofPattern("H:mm:ss");
+            ZoneId zid=ZoneId.systemDefault();
+            return HSSFDateUtil.getJavaDate(Double.valueOf(str)).toInstant().atZone(zid).toLocalTime().
+                    truncatedTo(ChronoUnit.MINUTES).minusMinutes(5);
         }
         else
         {
-            format=DateTimeFormatter.ofPattern("HH:mm");
+            DateTimeFormatter format=DateTimeFormatter.ofPattern("HH:mm");
+            return LocalTime.parse(str,format);
         }
-        LocalTime time=LocalTime.parse(str,format);
-        return time;
     }
 
 }

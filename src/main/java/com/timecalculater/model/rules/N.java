@@ -25,7 +25,7 @@ public abstract class N extends StandardRule
     @Override
     public float getOTHour(AttendanceRecord record)
     {
-        if(record.slot1!=null)
+        if(!record.slot1.notComplete())
         {
             return record.slot1.complement(reg_slot1);
         }
