@@ -196,32 +196,4 @@ public class ExcelUtil {
         saveToFile(outputFile);
     }
 
-    public static void main(String[] args) {
-//        List<AttendanceRecord> recordList=getAllRecordList("src/main/resources/com/timecalculater/excel/template/record_template.xlsx");
-//        for(AttendanceRecord record:recordList.subList(recordList.size()-10,recordList.size()))
-//        {
-//            System.out.println(record);
-//        }
-
-        WkHrStat result=new WkHrStat("张三");
-        result.name="张三";
-        result.days3to5H=1;
-        result.daysGT5H=2;
-        result.daysGT11H=11;
-        result.weekdaysHours=(float) 143.98;
-        result.weekdaysOvertimeHours=(float) 25.18;
-        result.weekendOvertimeHours=(float) 19.65;
-        result.holidayHours=(float) 8.00;
-        result.holidayOvertimeHours=0;
-        result.paidLeaveHours=8;
-        result.sickLeaveHours=1;
-        result.after20Subsidy=10;
-        result.absences=6;
-        result.c2Subsidy=200;
-
-        List<WkHrStat> resultList=new ArrayList<>();
-        resultList.add(result);
-
-        writeStatResult("src/main/resources/com/timecalculater/excel/temporary/result_temp.xlsx",resultList);
-    }
 }

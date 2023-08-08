@@ -24,7 +24,4 @@ public class TimeUtil {
         return null;
     }
 
-    public static void main(String[] args) {
-        System.out.println(latestOf(LocalTime.NOON,LocalTime.MAX));
-    }
 }
